@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+	
+	<!-- title -->
+	
+	<title>
+	
+		React 事件机制 | 
+	 
+	个人博客
+	</title>
+	
+	<!-- keywords,description -->
+	 
+
+	<!-- favicon -->
+	
+	<link rel="shortcut icon" href="/favicon.ico">
+	
+  
+
+	
+<link rel="stylesheet" href="/css/main.css">
+
+	
+<link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css">
+
+	
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/styles/darcula.min.css">
+
+
+	
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/highlight.min.js"></script>
+
+	
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+
+	
+<script src="https://cdn.jsdelivr.net/npm/jquery-pjax@2.0.1/jquery.pjax.min.js"></script>
+
+	
+<script src="/js/main.js"></script>
+
+	
+		
+<script src="https://cdn.jsdelivr.net/npm/leancloud-storage/dist/av-min.js"></script>
+
+		
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js"></script>
+
+	
+	
+		<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+	
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+	<header id="header">
+    <a id="title" href="/" class="logo">个人博客</a>
+
+	<ul id="menu">
+		<li class="menu-item">
+			<a href="/about" class="menu-item-link">ABOUT</a>
+		</li>
+		
+		<li class="menu-item">
+			<a href="https://github.com/rrwang05/rrwang05.github.io" class="menu-item-link" target="_blank">
+				UidGenerator
+			</a>
+		</li>
+		<li class="menu-item">
+			<a href="https://github.com/rrwang05" class="menu-item-link" target="_blank">
+				<i class="fa fa-github fa-2x"></i>
+			</a>
+		</li>
+	</ul>
+</header>
+
+	
+<div id="sidebar">
+	<button id="sidebar-toggle" class="toggle" ><i class="fa fa-arrow-right " aria-hidden="true"></i></button>
+	
+	<div id="site-toc">
+		<input id="search-input" class="search-input" type="text" placeholder="search...">
+		<div id="tree">
+			
+
+			
+							<ul>
+								<li class="file">
+									<a href="/2020/09/14/React-Redux/">
+										React-Redux
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2020/09/11/React-setState%E5%AE%9E%E7%8E%B0/">
+										React-setState实现
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file active">
+									<a href="/2020/09/14/React-%E4%BA%8B%E4%BB%B6%E6%9C%BA%E5%88%B6/">
+										React-事件机制
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2020/09/11/Virtual%20DOM/">
+										Virtual DOM
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2020/09/11/hello-world/">
+										hello-world
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2020/09/14/webpack/">
+										webpack
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2020/09/14/%E5%85%B3%E4%BA%8Ethis/">
+										关于this
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2020/09/14/%E9%97%AD%E5%8C%85/">
+										闭包
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+		</div>
+	</div>
+</div>
+
+	<!-- 引入正文 -->
+	<div id="content">
+		<h1 id="article-title">
+
+	React-事件机制
+</h1>
+<div class="article-meta">
+	
+	<span>rrwang05</span>
+	<span>2020-09-14 09:06:03</span>
+    
+		<div id="article-categories">
+            
+		</div>
+    
+</div>
+
+<div id="article-content">
+	<h2 id="React事件处理"><a href="#React事件处理" class="headerlink" title="React事件处理"></a>React事件处理</h2><p>React元素的事件处理与DOM元素的事件很类似，React使用时，不需要使用addEventListener为已创建的DOM元素添加监听器，事实上React是在初次渲染时添加监听器。下面列一下React事件处理要注意的点</p>
+<ol>
+<li>React事件的命名采用的是小驼峰</li>
+<li>使用JSX语法时需要传入的是一个函数作为事件处理函数，而不是一个字符串</li>
+<li>组织默认事件的执行，不能直接return false，而是要用preventDefault阻止。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">jumpfalse(e)&#123; &#x2F;&#x2F;e是一个合成事件，后面我们会对react的合成事件做一些介绍</span><br><span class="line">    e.preventDefault(); &#x2F;&#x2F;阻止默认的跳转事件</span><br><span class="line">    console.log(&quot;react 事件&quot;);</span><br><span class="line">&#125;</span><br><span class="line"> &lt;a href&#x3D;&quot;#&quot; onClick&#x3D;&#123;this.jumpfalse&#125;&gt;&lt;&#x2F;a&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;a href&#x3D;&quot;#&quot; onclick&#x3D;&quot;console.log(&quot;dom事件，阻止默认跳转事件&quot;); return false;&quot;&gt;&lt;&#x2F;a&gt;</span><br></pre></td></tr></table></figure></li>
+<li>事件处理程序传递的参数, 我们看下下面这两种传参<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;button onClick&#x3D;&#123;(e) &#x3D;&gt; this.deleteRow(id, e)&#125;&gt;Delete Row&lt;&#x2F;button&gt;</span><br><span class="line">&lt;button onClick&#x3D;&#123;this.deleteRow.bind(this, id)&#125;&gt;Delete Row&lt;&#x2F;button&gt;</span><br></pre></td></tr></table></figure>
+在这两种情况下，React的事件对象e会被当做第二个参数传递。如果通过箭头函数，事件对象必须显示的进行传递。通过bind的方式，事件对象以及更多的参数会被隐式的进行传递。</li>
+</ol>
+<h3 id="箭头函数-和-Function-prototype-bind"><a href="#箭头函数-和-Function-prototype-bind" class="headerlink" title="箭头函数 和 Function.prototype.bind"></a>箭头函数 和 Function.prototype.bind</h3><p>箭头函数的表达比函数表达式更为简单，它没有this, arguments, super 或 new.target。<br>适用于本来需要匿名函数的地方，并且它不能用作构造函数。<br>关于箭头函数的一些语法可以查阅 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Functions/Arrow_functions">https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Functions/Arrow_functions</a></p>
+<p>bind()方法创建一个新函数，在bind()被调用时，这个新函数的this被指定为bind()的第一个参数，而其余参数将被作为新函数的参数，供调用时使用。<br>Plofill:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">if (!Function.prototype.bind) (function() &#123;</span><br><span class="line">    var slice &#x3D; Array.prototype.slice;</span><br><span class="line">    Function.prototype.bind &#x3D; function()&#123;</span><br><span class="line">        var thatFunc &#x3D; this, ThatArgs &#x3D; arguments[0];</span><br><span class="line">        var args &#x3D; slice.call(arguments, 1);</span><br><span class="line">        if (typeof thatFunc !&#x3D;&#x3D; &quot;function&quot;) &#123;</span><br><span class="line">            throw new TypeError(&#39;error&#39;);</span><br><span class="line">        &#125;;</span><br><span class="line">        return function()&#123;</span><br><span class="line">            var funcArgs &#x3D; args.concat(slice.call(arguments));</span><br><span class="line">            return thatFunc.apply(thatArgs, funcArgs);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
+
+<h2 id="React-合成事件"><a href="#React-合成事件" class="headerlink" title="React 合成事件"></a>React 合成事件</h2><p>合成事件是由React事件系统一部分的SyntheticEvent包装器。<br>SyntheticEvent 实例将被传递给你的事件处理函数，它是浏览器的原生事件的跨浏览器包装器。除兼容所有浏览器外，它还保留了浏览器原生的事件接口，如stopPropagation() 和 preventDefault()。<br>每个SyntheticEvent对象都包含以下属性：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">boolean bubbles</span><br><span class="line">boolean cancelable</span><br><span class="line">DOMEventTarget currentTarget</span><br><span class="line">boolean defaultPrevented</span><br><span class="line">number eventPhase</span><br><span class="line">boolean isTrusted</span><br><span class="line">DOMEvent nativeEvent</span><br><span class="line">void preventDefault()</span><br><span class="line">boolean isDefaultPrevented()</span><br><span class="line">void stopPropagation()</span><br><span class="line">boolean isPropagationStopped()</span><br><span class="line">void persist()</span><br><span class="line">DOMEventTarget target</span><br><span class="line">number timeStamp</span><br><span class="line">string type</span><br></pre></td></tr></table></figure>
+<p>其中 DOMEvent nativeEvent 是原生对象，需要使用浏览器的底层事件时，通过 nativeEvent 属性能获取到。</p>
+<h5 id="React-使用-SyntheticEvent-的两个目的"><a href="#React-使用-SyntheticEvent-的两个目的" class="headerlink" title="React 使用 SyntheticEvent 的两个目的"></a>React 使用 SyntheticEvent 的两个目的</h5><ol>
+<li>兼容各个浏览器事件对象之间的差异</li>
+<li>避免垃圾回收。事件对象可能会被频繁创建和回收， 所以React搞了一个事件池，从这个池中获取或释放事件对象。换句话说，就是事件对象不会被释放掉，而是存在一个数组中，一旦有事件触发，就从这个数组中弹出来，这样可避免频繁地创建和销毁。<br>SyntheticEvent的函数可查看 <a target="_blank" rel="noopener" href="https://github.com/facebook/react/blob/75ab53b9e1de662121e68dabb010655943d28d11/packages/events/SyntheticEvent.js#L62">https://github.com/facebook/react/blob/75ab53b9e1de662121e68dabb010655943d28d11/packages/events/SyntheticEvent.js#L62</a></li>
+</ol>
+<p>源码中介绍两个函数属性： isPersistent 和 persist<br>persist() 是不要释放。 isPersiste()判断是否是持久的，是就不会被释放掉。</p>
+<p>在异步场景下或者想持久地引用SyntheticEvent对象，可以通过调用 persist()方法。或者是引用 nativeEvent 。</p>
+<h4 id="React-支持的事件"><a href="#React-支持的事件" class="headerlink" title="React 支持的事件"></a>React 支持的事件</h4><p>React 通过 normalize 事件让他们在不同浏览器中拥有一致的属性。<br>详细可查阅官方文档</p>
+<h3 id="React-事件注册"><a href="#React-事件注册" class="headerlink" title="React 事件注册"></a>React 事件注册</h3><p>React 事件注册过程主要做了两件事：</p>
+<ol>
+<li><p>document上注册<br>在组件挂载阶段，根据组件内部声明的事件类型(onclick、 onchange)等，在document上使用addEventListener注册事件，并指定统一的回调函数 dispatchEvent 。因为这一事件委托机制，具有同样的回调函数 dispatchEvent ， 所以对同一事件类型，不论在document上注册了几次，最终也只会保留一个有效的实例，这能减少内存开销。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; JSX语法</span><br><span class="line">handleClick1() &#123;</span><br><span class="line">    &#x2F;&#x2F; ...</span><br><span class="line">&#125;</span><br><span class="line">handleClick2() &#123;</span><br><span class="line">    &#x2F;&#x2F; ...</span><br><span class="line">&#125;</span><br><span class="line">render() &#123;</span><br><span class="line">    return(</span><br><span class="line">        &lt;div&gt;</span><br><span class="line">            &lt;button onClick&#x3D;&#123;this.handleClick1&#125;&gt;&lt;&#x2F;button&gt;</span><br><span class="line">            &lt;button onClick&#x3D;&#123;this.handleClick2&#125;&gt;&lt;&#x2F;button&gt;</span><br><span class="line">        &lt;&#x2F;div&gt;</span><br><span class="line">    )</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; 两个事件类型都是click，由于React的事件委托机制，会统一制定到回调函数 dispatchEvent ，所以最终只会在document上保留一个click事件</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>存储事件回调<br>React为了在触发事件时可以查找到对象的回调函数执行，会把组件内的所有时间统一放到一个对象( listenBank )中. 存储方式会根据事件类型，如click事件相关的统一存储在一个对象中， 回调函数采用（value/key）的方式存储在对象中，key是唯一标识id，value 对应的是事件回调函数。</p>
+</li>
+<li><p>源码<br>enqueuePutListener方法是整个React事件机制的核心方法。这个方法是注册事件到document上，存储回调函数到EventPluginHub中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;*</span><br><span class="line"> @param id: 事件绑定的当前元素的id</span><br><span class="line"> @param registrationName： 绑定的事件名称，onClick。</span><br><span class="line"> @param listener： onClick后的那个回调函数</span><br><span class="line"> @param transaction： 一个事务</span><br><span class="line"> *&#x2F; </span><br><span class="line"> function enqueuePutListener(id, registrationName, listener, transaction) &#123;</span><br><span class="line"> &#x2F;&#x2F; id是当前元素的id，就是你绑定的事件，比如onClick绑定在哪个元素上，那个元素的data-reactid属性的值。</span><br><span class="line"> var container &#x3D; ReactMount.findReactContainerForID(id);</span><br><span class="line"> &#x2F;&#x2F; container就是包裹所有React组件的那个元素。单页面应用一般只有一个 就是我们在HTML中定义的那个 &lt;div id&#x3D;&quot;app&quot;&gt;&lt;&#x2F;div&gt;</span><br><span class="line"> if (container) &#123;</span><br><span class="line">     var doc &#x3D; container.nodeType &#x3D;&#x3D;&#x3D; ELEMENT_NODE_TYPE ? container.ownerDocument : container;</span><br><span class="line">     &#x2F;&#x2F; doc是一个document</span><br><span class="line">     listenTo(registrationName, doc);</span><br><span class="line">     &#x2F;&#x2F; 调用listenTo方法注册事件。注意，这里只是将事件注册在了document上，而没有给我们定义的回到函数。</span><br><span class="line">     &#x2F;&#x2F; listenTo方法是ReactBrowserEventEmitter模块的listenTo方法。</span><br><span class="line"> &#125;</span><br><span class="line"> &#x2F;&#x2F; 使用事务，将listenr存储起来。</span><br><span class="line"> transaction.getReactMountReady().enqueue(putListener, &#123;</span><br><span class="line">     id: id,</span><br><span class="line">     registrationName: registrationName,</span><br><span class="line">     listener: listener</span><br><span class="line"> &#125;);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p> enqueuePutListener 有两个核心方法，listenTo 注册到document上； enqueue 是存储回调函数</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">listenTo: function (registrationName, contentDocumentHandle) &#123;</span><br><span class="line">    &lt;!--listenTo方法，考虑了太多的可能性，我们删除一些无用的代码，保留核心代码--&gt;</span><br><span class="line">    &lt;!--mountAt就是事件注册的document（页面中可以有多个document）--&gt;</span><br><span class="line">    var mountAt &#x3D; contentDocumentHandle;</span><br><span class="line">    &lt;!--&#x2F;&#x2F; isListening就是当前Document---mountAt，对应的一个唯一的对象。--&gt;</span><br><span class="line">    var isListening &#x3D; getListeningForDocument(mountAt);</span><br><span class="line">    &lt;!--定义我们写入的事件与top事件的对应。 onAbort:[&#39;topAbort&#39;],dependencies对应的是[&#39;topAbort&#39;]--&gt;</span><br><span class="line">    &lt;!--这里的top事件就是EventConstants模块中定义的，这些top事件是我们原始的事件类型，在顶层的一种表示方法。只是换了个名字而已。就像是click事件，我们绑定的时候是写作onClick的，但是，React要使用顶层来代理这些事件，所以就写作了topClick。--&gt;</span><br><span class="line">    var dependencies &#x3D; EventPluginRegistry.registrationNameDependencies[registrationName];</span><br><span class="line">    &lt;!--EventPluginRegistry模块的registrationNameDependencies属性是一个对象，主要是保存了我们写作的事件与顶层事件的一一对应关系。就像是</span><br><span class="line">    &#123;</span><br><span class="line">        onAbort:[&#39;topAbort&#39;],onClick:[&#39;topClick&#39;]</span><br><span class="line">    &#125;</span><br><span class="line">    --&gt;</span><br><span class="line">    ReactBrowserEventEmitter.ReactEventListener.trapBubbledEvent(dependency, topEventMapping[dependency], mountAt);</span><br><span class="line">    &lt;!--这里的核心调用了trapBubbledEvent方法，也有一些情况是使用 trapCapturedEvent方法顾名思义，他们是在将事件注册在不同的事件流中（捕获事件流或者是冒泡事件流），下面我们以冒泡事件流为例说明。--&gt;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"> &#x2F;&#x2F;  @param topLevelType：topAbort,topClick等</span><br><span class="line"> &#x2F;&#x2F;  @param handlerBaseName：abort,click等</span><br><span class="line"> &#x2F;&#x2F;  @param handle：一个document</span><br><span class="line"> trapBubbledEvent: function (topLevelType, handlerBaseName, handle) &#123;</span><br><span class="line">    var element &#x3D; handle;</span><br><span class="line">    if (!element) &#123;</span><br><span class="line">    return null;</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;*</span><br><span class="line">    注意：</span><br><span class="line">    listen方法主要是调用了addEventListener方法。而addEventListener方法接受三个参数。</span><br><span class="line">    &#x2F;&#x2F;  @param eventType：就是click，abort等。</span><br><span class="line">    &#x2F;&#x2F;  @param callback ：就是事件触发的时候的回调函数。</span><br><span class="line">    &#x2F;&#x2F;  @param Boolean值： 表示在什么时候触发，冒泡阶段，还是捕获阶段默认是false，冒泡阶段。</span><br><span class="line">    而到了这里，我们没有拿到一个回调函数callback，你看给的三个参数是：topLevelType, handlerBaseName, handle</span><br><span class="line"></span><br><span class="line">    这里React给了一个函数 ReactEventListener.dispatchEvent.bind(null, topLevelType)来做回调函数。</span><br><span class="line">    这个回调函数，和我们绑定在页面上的回调函数不是一回事。</span><br><span class="line">    我们在页面上绑定的回调函数，最终是存储在了EventPluginHub的listenerBank中了。</span><br><span class="line">    *&#x2F; </span><br><span class="line">    &lt;!--核心还是调用了EventListener模块的listen方法--&gt;</span><br><span class="line">    return EventListener.listen(element, handlerBaseName, ReactEventListener.dispatchEvent.bind(null, topLevelType));</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 该方法就是调用了注册方法的API。抹平了不同浏览器的差异。在Target上注册了一个事件类型为eventType的事件</span><br><span class="line">target是上边传过来的element，也就是一个document。</span><br><span class="line">eventType：是一个事件类型，比如click，change等。</span><br><span class="line">callback:我们之前说过，我们再组件内写的方法是没有注册在这的。</span><br><span class="line">这里的callback是React提供的一个分发函数。ReactEventListener.dispatchEvent（）。而我们在组件中写的方法最终是存储到了EventPluginHub中。--&gt;</span><br><span class="line">    listen: function (target, eventType, callback) &#123;</span><br><span class="line">        if (target.addEventListener) &#123;</span><br><span class="line">        target.addEventListener(eventType, callback, false);</span><br><span class="line">        return &#123;</span><br><span class="line">            remove: function () &#123;</span><br><span class="line">            target.removeEventListener(eventType, callback, false);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        &#125; else if (target.attachEvent) &#123;</span><br><span class="line">        target.attachEvent(&#39;on&#39; + eventType, callback);</span><br><span class="line">        return &#123;</span><br><span class="line">            remove: function () &#123;</span><br><span class="line">            target.detachEvent(&#39;on&#39; + eventType, callback);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+
+</div>
+
+
+    <div class="post-guide">
+        <div class="item left">
+            
+              <a href="/2020/09/14/webpack/">
+                  <i class="fa fa-angle-left" aria-hidden="true"></i>
+                  webpack
+              </a>
+            
+        </div>
+        <div class="item right">
+            
+              <a href="/2020/09/14/React-Redux/">
+                React-Redux
+                <i class="fa fa-angle-right" aria-hidden="true"></i>
+              </a>
+            
+        </div>
+    </div>
+
+
+
+	<div id="vcomments"></div>
+
+
+<script>
+	
+		// 评论
+		new Valine({
+			av: AV,
+			el: '#vcomments',
+			notify: false,
+			verify: false,
+			path: window.location.pathname,
+			appId: '',
+			appKey: '',
+			placeholder: '请输入评论',
+			avatar: 'retro',
+			recordIP: false
+		})
+	
+	
+</script>
+	</div>
+	<div id="footer">
+	<p>
+	©2020-<span id="footerYear"></span> 
+	<a href="/">rrwang05</a> 
+	
+	
+		|
+		<span id="busuanzi_container_site_pv">
+			pv
+			<span id="busuanzi_value_site_pv"></span>
+		</span>
+		|
+		<span id="busuanzi_container_site_uv"> 
+			uv
+			<span id="busuanzi_value_site_uv"></span>
+		</span>
+	
+	<br>
+	Theme <a href="//github.com/wujun234/hexo-theme-tree" target="_blank">Tree</a>
+	by <a href="//github.com/rrwang05" target="_blank">rrwang05</a>
+	Powered by <a href="//hexo.io" target="_blank">Hexo</a>
+	</p>
+</div>
+<script type="text/javascript"> 
+	document.getElementById('footerYear').innerHTML = new Date().getFullYear() + '';
+</script>
+	<button id="totop-toggle" class="toggle"><i class="fa fa-angle-double-up" aria-hidden="true"></i></button>
+</body>
+</html>
